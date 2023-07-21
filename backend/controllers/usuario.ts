@@ -1,20 +1,35 @@
 import { Request, Response } from 'express';
+import Cliente from '../models/cliente';
 
-export const getUsuarios = async (req: Request, res: Response) => {
+export const getClientes = async (req: Request, res: Response) => {
+    
+    const cliente = await Cliente.findAll();
+    
     res.json({
         ok: true,
-        msg: 'getUsuarios'
+        msg: 'getClientes',
+        cliente
     });
 }
 
-export const getUsuario = async (req: Request, res: Response) => {
+export const getCliente = async (req: Request, res: Response) => {
 
     const { id } = req.params;
 
+    const cliente = await Cliente.findByPk(id);
+
+    if (!cliente) {
+        return res.status(404).json({
+            ok: false,
+            msg: 'No existe un cliente con ese id'
+        });
+    }
+
     res.json({
         ok: true,
-        msg: 'getUsuario',
-        id
+        msg: 'getCliente',
+        id,
+        cliente
     });
 }
 
