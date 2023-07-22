@@ -1,11 +1,12 @@
 import {DataTypes} from 'sequelize';
 import db from '../database/connection';
 
-const Cliente = db.define('cliente', {
+const Cliente = db.define('cliente_clon', {
     id_cli : {
         type: DataTypes.INTEGER,
         primaryKey: true,
-        autoIncrement: true
+        autoIncrement: true,
+        allowNull: false,
     },
     dni_cli : {
         type: DataTypes.STRING

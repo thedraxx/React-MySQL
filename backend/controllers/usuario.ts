@@ -34,15 +34,28 @@ export const getCliente = async (req: Request, res: Response) => {
 }
 
 
-export const postUsuario = async (req: Request, res: Response) => {
+export const postCliente= async (req: Request, res: Response) => {
 
     const { body } = req;
 
-    res.json({
-        ok: true,
-        msg: 'postUsuario',
-        body
-    });
+    try {
+
+        const usuario = Cliente.build(body);
+        await usuario.save();
+
+        res.status(201).json({
+            ok: true,
+            msg: 'postCliente',
+            usuario
+        });
+        
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Hable con el administrador'
+        });
+    }
 }
 
 export const putUsuario = async (req: Request, res: Response) => {
