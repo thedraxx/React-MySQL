@@ -3,7 +3,6 @@ import userRoutes from '../routes/usuario';
 import cors from 'cors';
 import db from '../database/connection';
 
-
 class Server {
 
     private app: Application;
@@ -12,7 +11,6 @@ class Server {
         usuarios:'/api/usuarios'
     }
     
-
     constructor(){
         this.app = express();
         this.port = process.env.PORT || '8000';
@@ -57,7 +55,7 @@ class Server {
 
     listen(){
         this.app.listen(this.port, () => {
-            console.log(`Servidor corriendo en puerto ${this.port}`);
+            console.log(`Server Running on ${this.port}`);
         });
     }
 }

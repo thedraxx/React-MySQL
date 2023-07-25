@@ -40,6 +40,19 @@ export const postCliente= async (req: Request, res: Response) => {
 
     try {
 
+        const existeEmail = await Cliente.findOne({
+            where: {
+                email_cli: body.email_cli
+            }
+        })
+
+        if(existeEmail){
+            return res.status(400).json({
+                ok: false,
+                msg: 'Ya existe un cliente con ese email'
+            });
+        }
+
         const usuario = Cliente.build(body);
         await usuario.save();
 
@@ -58,21 +71,57 @@ export const postCliente= async (req: Request, res: Response) => {
     }
 }
 
-export const putUsuario = async (req: Request, res: Response) => {
+export const putCliente = async (req: Request, res: Response) => {
     const { id } = req.params;
     const { body } = req;
 
-    res.json({
-        ok: true,
-        msg: 'putUsuario',
-        body,
-        id
-    });
+    try {
+
+        const usuario = await Cliente.findByPk(id)
+
+        if(!usuario){
+            return res.status(404).json({
+                ok: false,
+                msg: 'No existe un cliente con ese id'
+            });
+        }
+
+        await usuario.update(body);
+
+        res.status(201).json({
+            ok: true,
+            msg: 'putCliente',
+            usuario
+        });
+        
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Hable con el administrador'
+        });
+    }
 }
 
 
-export const deleteUsuario = async (req: Request, res: Response) => {
+export const deleteCliente = async (req: Request, res: Response) => {
     const { id } = req.params;
+
+
+    const usuario = await Cliente.findByPk(id)
+
+    if(!usuario){
+        return res.status(404).json({
+            ok: false,
+            msg: 'No existe un cliente con ese id'
+        });
+    }
+
+    await Cliente.destroy({
+        where: {
+            id_cli: id
+        }
+    })
 
     res.json({
         ok: true,
