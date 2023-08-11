@@ -30,7 +30,13 @@ function App() {
 
   if (isLoading) {
     return (
-      <Spinner size='xl' />
+      <Spinner
+        size='xl'
+        top={"50%"}
+        left={"50%"}
+        width={"100px"}
+        height={"100px"}
+      />
     )
   }
 

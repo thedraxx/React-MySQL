@@ -1,18 +1,38 @@
-import { Box, Button, Text } from '@chakra-ui/react';
+import { Alert, AlertDescription, AlertIcon, AlertTitle, Box, Button, Text } from '@chakra-ui/react';
 import { Cliente } from '../../interface/iUsuarios';
-
+import { useState } from 'react';
 
 interface Props {
     usuarios: Cliente[];
 }
 
 export const ShowData = ({ usuarios }: Props) => {
+    const [isDeleted, setIsDeleted] = useState(false)
+    const [isError, setIsError] = useState(false)
 
     const deleteClienteById = async (id: number) => {
-        console.log(id)
+        setIsDeleted(false)
+        try {
+            const response = await fetch(`http://localhost:8000/api/usuarios/${id}`, {
+                method: 'DELETE',
+            });
+            if (response.ok) {
+                console.log('Cliente eliminado');
+                setIsDeleted(true)
+                setTimeout(() => {
+                    window.location.reload();
+                }, 2000);
+            } else {
+                console.log('Error al eliminar cliente');
+                setIsError(true)
+                setTimeout(() => {
+                    window.location.reload();
+                }, 2000);
+            }
+        } catch (error) {
+            console.error(error);
+        }
     }
-
-
 
     return (
         <Box
@@ -23,6 +43,38 @@ export const ShowData = ({ usuarios }: Props) => {
             m={2}
             overflowX="auto"
         >
+            {
+                isDeleted && (
+                    <Alert
+                        status="success"
+                        variant='subtle'
+                        pt={5}
+                        pb={5}
+                        mt={2}
+                        mb={2}
+                    >
+                        <AlertIcon />
+                        <AlertTitle>Registro eliminado!</AlertTitle>
+                        <AlertDescription>Refrescando en breve...</AlertDescription>
+                    </Alert>
+                )
+            }
+            {
+                isError && (
+                    <Alert
+                        status="error"
+                        variant='subtle'
+                        pt={5}
+                        pb={5}
+                        mt={2}
+                        mb={2}
+                    >
+                        <AlertIcon />
+                        <AlertTitle>Error al eliminar registro!</AlertTitle>
+                        <AlertDescription>Refrescando en breve...</AlertDescription>
+                    </Alert>
+                )
+            }
             <table style={{ width: '100%', borderCollapse: 'collapse' }}>
                 <thead>
                     <tr>

@@ -33,6 +33,10 @@ const Database = () => {
             } else {
                 console.log("No se pudo enviar los datos")
                 seterror(true)
+
+                setTimeout(() => {
+                    seterror(false)
+                }, 2000);
             }
         } catch (error) {
             console.error("error", error)
