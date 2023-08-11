@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import { Cliente, IUsuarios } from './interface/iUsuarios'
 import { Input, ShowData, ButtonAdd } from './components'
 import { Box } from '@chakra-ui/react'
+import { Spinner } from '@chakra-ui/react'
 
 function App() {
 
@@ -29,9 +30,7 @@ function App() {
 
   if (isLoading) {
     return (
-      <div>
-        <h1>Cargando...</h1>
-      </div>
+      <Spinner size='xl' />
     )
   }
 

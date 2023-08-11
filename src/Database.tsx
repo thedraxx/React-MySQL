@@ -13,13 +13,11 @@ const Database = () => {
         direc_cli: "",
     })
 
-
+    const [error, seterror] = useState(false)
 
     const navigate = useNavigate()
 
     const addDataOnDB = async () => {
-        console.log(inputs)
-
         try {
             const sendData = await fetch("http://localhost:8000/api/usuarios/", {
                 method: "POST",
@@ -30,12 +28,11 @@ const Database = () => {
                 body: JSON.stringify(inputs)
             })
 
-            console.log(sendData)
-
             if (sendData.status === 201) {
                 navigate("/")
             } else {
                 console.log("No se pudo enviar los datos")
+                seterror(true)
             }
         } catch (error) {
             console.error("error", error)
@@ -54,6 +51,25 @@ const Database = () => {
             justifyItems={"center"}
             justifySelf={"center"}
         >
+            {
+                error && (
+                    <Box
+                        p={"20px"}
+                        display={"flex"}
+                        flexDirection={"column"}
+                        justifyContent={"center"}
+                    >
+                        <Text
+                            color={"red"}
+                            fontSize={"20px"}
+                            fontWeight={"bold"}
+                            mb={"20px"}
+                        >
+                            A ocurrido un error al enviar los datos
+                        </Text>
+                    </Box>
+                )
+            }
             <Text
                 fontSize={"30px"}
                 fontWeight={"bold"}
@@ -132,7 +148,6 @@ const Database = () => {
                 }}
                 mb={"10px"}
             />
-
 
             <Input
                 type="text"

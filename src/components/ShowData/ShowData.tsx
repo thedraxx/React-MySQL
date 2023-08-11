@@ -1,11 +1,19 @@
-import { Box, Text } from '@chakra-ui/react';
+import { Box, Button, Text } from '@chakra-ui/react';
 import { Cliente } from '../../interface/iUsuarios';
+
 
 interface Props {
     usuarios: Cliente[];
 }
 
 export const ShowData = ({ usuarios }: Props) => {
+
+    const deleteClienteById = async (id: number) => {
+        console.log(id)
+    }
+
+
+
     return (
         <Box
             w="100%"
@@ -23,6 +31,7 @@ export const ShowData = ({ usuarios }: Props) => {
                         <th style={tableHeaderStyle}>apellido</th>
                         <th style={tableHeaderStyle}>email</th>
                         <th style={tableHeaderStyle}>telefono</th>
+                        <th style={tableHeaderStyle}>Eliminar</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -33,6 +42,18 @@ export const ShowData = ({ usuarios }: Props) => {
                             <td style={tableCellStyle}>{usuario.ape_cli}</td>
                             <td style={tableCellStyle}>{usuario.email_cli}</td>
                             <td style={tableCellStyle}>{usuario.tel_cli}</td>
+                            <td style={tableCellStyle}>
+                                <Button
+                                    backgroundColor={"transparent"}
+                                    size="sm"
+                                    onClick={() => {
+                                        deleteClienteById(usuario.id_cli);
+                                    }}
+                                >
+                                    x
+                                </Button>
+                            </td>
+
                         </tr>
                     ))}
                 </tbody>
